@@ -1,6 +1,5 @@
 package com.poc.kafka.gateway.sender;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,14 +17,18 @@ import java.util.Random;
 
 @Repository
 @Slf4j
-@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class KafkaSenderExample {
 
-    private final KafkaTemplate kafkaTemplate;
+    private final KafkaTemplate<Integer, String> kafkaTemplate;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
 
     @Value("${kafka.exampletopic}")
     private String kafkaTopicExample;
+
+    @Autowired
+    public KafkaSenderExample(KafkaTemplate<Integer, String> kafkaTemplate) {
+        this.kafkaTemplate = kafkaTemplate;
+    }
 
     @Scheduled(fixedDelayString = "${application.scheduler.time}")
     public void produceMessage() {
@@ -38,7 +41,7 @@ public class KafkaSenderExample {
     }
 
     private void sendMessage(String topic, String message) {
-        ListenableFuture future = kafkaTemplate.send(topic, message);
+        ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message);
 
         future.addCallback(
                 new ListenableFutureCallback<SendResult<Integer, String>>() {
