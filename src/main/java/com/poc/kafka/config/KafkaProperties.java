@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 @Data
 public class KafkaProperties {
 
-    @Value("${kafka.host}")
-    private String kafkaHost;
+  @Value("${kafka.url}")
+  private String kafkaUrl;
 
-    @Value("${kafka.port}")
-    private String kafkaPort;
+  @Value("${kafka.producer.retries}")
+  private int producerRetries;
 
-    String getKafkaHostPort() {
-        return getKafkaHost() + ":" + getKafkaPort();
-    }
+  String getKafkaHostPort() {
+    return getKafkaUrl();
+  }
 }
