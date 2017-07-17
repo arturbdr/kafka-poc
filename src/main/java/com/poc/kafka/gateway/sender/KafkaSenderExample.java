@@ -1,7 +1,11 @@
 package com.poc.kafka.gateway.sender;
 
+import java.text.MessageFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Random;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -10,26 +14,18 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
-import java.text.MessageFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Random;
-
 @Repository
 @Slf4j
+@RequiredArgsConstructor
 public class KafkaSenderExample {
 
-  private final KafkaTemplate<Integer, String> kafkaTemplate;
+  private final KafkaTemplate<String, String> kafkaTemplate;
   private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter
       .ofPattern("yyyy-MM-dd hh:mm:ss");
 
   @Value("${kafka.exampletopic}")
   private String kafkaTopicExample;
 
-  @Autowired
-  public KafkaSenderExample(KafkaTemplate<Integer, String> kafkaTemplate) {
-    this.kafkaTemplate = kafkaTemplate;
-  }
 
   @Scheduled(fixedDelayString = "${application.scheduler.time}")
   public void produceMessage() {
@@ -42,14 +38,15 @@ public class KafkaSenderExample {
   }
 
   private void sendMessage(String topic, String message) {
-    ListenableFuture<SendResult<Integer, String>> future = kafkaTemplate.send(topic, message);
+    ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(topic,
+        String.valueOf(message.hashCode()), message);
 
-    future.addCallback(
-        new ListenableFutureCallback<SendResult<Integer, String>>() {
+    send.addCallback(
+        new ListenableFutureCallback<SendResult<String, String>>() {
 
           @Override
           public void onSuccess(
-              SendResult<Integer, String> result) {
+              SendResult<String, String> result) {
             log.info("Message successfully sent ='{}' offset='{}'", message,
                 result.getRecordMetadata().offset());
           }

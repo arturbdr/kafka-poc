@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Slf4j
 public class DefaultKafkaConsumer {
 
-    @KafkaListener(topics = "${kafka.exampletopic}")
-    public void onMessage(String message) {
-        log.info("Receiving message {}", message);
-    }
+  @KafkaListener(topics = "${kafka.exampletopic}")
+  public void onMessage(String message) {
+    log.info("Receiving message {}", message);
+  }
 }

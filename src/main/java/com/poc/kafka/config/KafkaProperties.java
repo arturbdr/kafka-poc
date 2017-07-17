@@ -1,20 +1,15 @@
 package com.poc.kafka.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
 @Data
+@ConfigurationProperties(prefix = "kafka")
 public class KafkaProperties {
 
-  @Value("${kafka.url}")
-  private String kafkaUrl;
-
-  @Value("${kafka.producer.retries}")
+  private String url;
   private int producerRetries;
-
-  String getKafkaHostPort() {
-    return getKafkaUrl();
-  }
+  private String consumerGroup;
 }
