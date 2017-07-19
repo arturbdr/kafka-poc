@@ -11,3 +11,6 @@ services:
       - "3030:3030"
     environment:
       - ADV_HOST=127.0.0.1
+
+# Create Topic in this kafka with 10 partitions. Use docker shell:
+# kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 10 --topic TopicX

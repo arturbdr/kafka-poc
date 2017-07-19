@@ -10,7 +10,6 @@
   <packaging>jar</packaging>
 
   <name>kafkapoc</name>
-  <description></description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -20,9 +19,12 @@
   </parent>
 
   <properties>
+    <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
+    <spring-kafka.version>1.2.2.RELEASE</spring-kafka.version>
+    <springfox-swagger2.version>2.7.0</springfox-swagger2.version>
+    <springfox-swagger-ui.version>1.0.0</springfox-swagger-ui.version>
   </properties>
 
   <dependencies>
@@ -39,6 +41,26 @@
     <dependency>
       <groupId>org.springframework.kafka</groupId>
       <artifactId>spring-kafka</artifactId>
+      <version>${spring-kafka.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.kafka</groupId>
+      <artifactId>spring-kafka-test</artifactId>
+      <version>${spring-kafka.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-configuration-processor</artifactId>
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -47,9 +69,15 @@
     </dependency>
 
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-configuration-processor</artifactId>
-      <optional>true</optional>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+      <version>${springfox-swagger2.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>io.springfox.ui</groupId>
+      <artifactId>springfox-swagger-ui-rfc6570</artifactId>
+      <version>${springfox-swagger-ui.version}</version>
     </dependency>
   </dependencies>
 

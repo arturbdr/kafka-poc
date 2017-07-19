@@ -2,8 +2,7 @@ kafka:
   exampletopic: TopicX
   url: 127.0.0.1:9092
   producerRetries: 5
-  consumerGroup: qualquergrupoehnecessario
-
-application.scheduler.time: 5000
+  consumerGroup: anyGroupName
+  consumers: 10
 
 logging.level.root: info
